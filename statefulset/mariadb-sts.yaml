@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  serviceName: mariadb-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: mariadb
+        image: mariadb:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mypassword
+        ports:
+        - containerPort: 3306
+          name: db
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          timeoutSeconds: 1
+        readinessProbe:
+          exec:
+            command: ["mariadb", "-uroot", "-pmypassword", "-e", "select count(*) from mysql.user;"]
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          timeoutSeconds: 1
+        volumeMounts:
+        - name: mariadb-pv
+          mountPath: /docker-entrypoint-initdb.d
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-pv
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
