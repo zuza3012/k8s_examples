@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: para-job
+spec:
+  parallelism: 3
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - name: para-job
+        image: perl
+        command: ["bash"]
+        args: ["-c", "sleep 10;", "echo I am okej;"]
+      restartPolicy: Never

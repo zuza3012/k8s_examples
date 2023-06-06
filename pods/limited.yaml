@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: limited-pod
+  labels:
+    name: limited-pod
+spec:
+  containers:
+  - name: limited-pod
+    image: bitnami/redis
+    env:
+      - name: REDIS_PASSWORD
+        value: password
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"

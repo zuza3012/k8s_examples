@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-job
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    metadata:
+      name: hello-job
+    spec:
+      containers:
+      - name: hello
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        command: ["echo", "hello-world"]
+      restartPolicy: Never
