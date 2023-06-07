@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mp-hello
+  labels:
+    name: hello
+spec:
+  containers:
+  - name: nginx
+    image: bitnami/nginx
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "250m"
+  - name: shell
+    image: bitnami/kubectl
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "250m"
+    command: ["/bin/sh"]
+    args: #["-c", "sleep infinity"]
+      - "-c"
+      - sleep infinity
+  - name: consul
+    image: bitnami/consul
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "250m"

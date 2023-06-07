@@ -1,16 +1,16 @@
+# k create serviceaccount namaste
 apiVersion: v1
 kind: Pod
 metadata:
-  name: myapp
+  name: sapod
   labels:
-    name: myapp
+    name: sapod
 spec:
+  serviceAccountName: mysa
   containers:
-  - name: myapp
-    image: <Image>
+  - name: sapod
+    image: bitnami/nginx
     resources:
       limits:
         memory: "128Mi"
         cpu: "500m"
-    ports:
-      - containerPort: <Port>
