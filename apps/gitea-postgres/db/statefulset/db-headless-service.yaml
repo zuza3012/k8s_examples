@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-headles-service
+spec:
+  selector:
+    app: db-headles-service
+  ports:
+  - port: 5432
+  clusterIP: None

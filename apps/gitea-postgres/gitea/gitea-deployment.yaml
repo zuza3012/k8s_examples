@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea
+spec:
+  selector:
+    matchLabels:
+      app: gitea
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      restartPolicy: Always
+      volumes:
+        - name: gitea-pv
+          persistentVolumeClaim:
+            claimName: gitea-pvc
+      containers:
+      - name: gitea
+        image: gitea/gitea:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DB_TYPE
+            valueFrom:
+              configMapKeyRef:
+                key: db-type
+                name:  gitea-conf
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: db-host
+                name:  gitea-conf
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                key: db-name
+                name:  gitea-conf
+        envFrom:
+          - secretRef: 
+              name: gitea-secret
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+          - name: gitea-pv
+            mountPath: /data
+          

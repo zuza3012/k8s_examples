@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea-svc
+spec:
+  selector:
+    app: gitea
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30000
+  type: NodePort
+
+
+# minikube service gitea-svc --url

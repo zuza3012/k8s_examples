@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitea-conf
+data:
+  db-type: postgres:alpine
+  db-host: db:5432
+  db-name: gitea
