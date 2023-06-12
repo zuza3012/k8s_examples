@@ -1,0 +1,21 @@
+PodapiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: vader
+  name: vader
+spec:
+  volumes:
+    - name: vader-vol
+      emptyDir: {}
+  containers:
+  - image: bitnami/nginx
+    name: vader
+    resources: {}
+    volumeMounts:
+      - mountPath: /var/www/html
+        name: vader-vol
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
